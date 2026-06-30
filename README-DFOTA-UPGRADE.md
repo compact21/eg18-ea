@@ -118,6 +118,7 @@ per confronto post-flash:
 ```
 ATI
 AT+QGMR
+AT+CSUB
 AT+CVERSION
 ```
 
@@ -127,11 +128,15 @@ Esempio output atteso:
 ATI
 Quectel
 EG18
-Revision: EG18EAPAR01A12M4G
+Revision: EG18EAPAR01A08M4G
 OK
 
 AT+QGMR
-EG18EAPAR01A12M4G
+EG18EAPAR01A08M4G
+OK
+
+AT+CSUB
+SubEdition: V05
 OK
 ```
 
@@ -210,6 +215,7 @@ Dalla sessione picocom, dopo il riavvio del modulo:
 ```
 ATI
 AT+QGMR
+AT+CSUB
 AT+CVERSION
 ```
 
