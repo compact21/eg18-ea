@@ -4,7 +4,7 @@ Procedura per l'aggiornamento del firmware del modulo LTE Quectel EG18-EA
 tramite comandi AT su router Zyxel LTE5398-M904 con OpenWrt.
 
 > **Nota**: questa procedura utilizza il metodo DFOTA (Delta Firmware Over The Air)
->           tramite download HTTP/HTTPS diretto dal modulo.
+>           tramite download HTTPS diretto dal modulo.
 
 ---
 
