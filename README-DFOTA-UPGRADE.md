@@ -75,6 +75,7 @@ I file di aggiornamento per EG18-EA esistono in due formati distinti e **incompa
 | DFOTA     | ~40 MB            | Questa procedura (AT commands)        |
 | qfirehose | >100 MB           | Procedura separata via porta EDL 9008 |
 
+I file distribuiti per l'interfaccia web Zyxel OEM sono in formato **DFOTA** verifica dimensione e chsum prima se possibile.
 
 La nomenclatura del file indica la direzione dell'aggiornamento:
 
@@ -100,8 +101,9 @@ Da una seconda sessione SSH sul router (mantenere picocom aperto):
 # fermare la connessione WAN
 ifdown wan
 
-# fermare watchdog_mbim se presente
-/etc/init.d/watchdog_mbim stop
+# fermare eventuali watchdog se presenti (da adattare alla situazione del router)
+/etc/init.d/watchdog stop
+/etc/init.d/watchcat stop
 ```
 
 > **Nota**: Se presente **ModemManager**, rimuoverlo temporaneamente e riavviare
@@ -165,7 +167,9 @@ AT+QFOTADL="https://quec-pro-oss.oss-cn-shanghai.aliyuncs.com/fota/9000/Update_E
 Gli indicatori `+QIND` vengono emessi spontaneamente dal modulo e appaiono
 direttamente nella sessione picocom.
 
-La sequenza attesa per aggiornamento via **HTTP**:
+La sequenza `+QIND` dipende dal protocollo dell'URL utilizzato.
+
+Via **HTTP**:
 
 ```
 +QIND: "FOTA","HTTPSTART"        # download avviato
@@ -176,11 +180,15 @@ La sequenza attesa per aggiornamento via **HTTP**:
 +QIND: "FOTA","END",0            # aggiornamento completato con successo
 ```
 
-Per aggiornamento via **HTTPS** le prime due righe diventano:
+Via **HTTPS**:
 
 ```
-+QIND: "FOTA","HTTPSSTART"
-+QIND: "FOTA","HTTPSEND",0
++QIND: "FOTA","HTTPSSTART"       # download avviato
++QIND: "FOTA","HTTPSEND",0       # download completato con successo
++QIND: "FOTA","START"            # flash avviato
++QIND: "FOTA","UPDATING",1       # avanzamento flash (percentuale)
++QIND: "FOTA","UPDATING",100     # flash completato
++QIND: "FOTA","END",0            # aggiornamento completato con successo
 ```
 
 Dopo `END,0` il modulo si riavvia autonomamente. La sequenza di riavvio
@@ -199,12 +207,12 @@ RDY
 
 Tempi indicativi (da log reale, rev 8 → rev 13):
 
-| Fase       | Durata          |
-|------------|-----------------|
-| Download   | ~1 minuto       |
-| Flash      | ~8 minuti       |
-| Riavvio    | ~30 secondi     |
-| **Totale** | **~10 minuti**  |
+| Fase       | Durata         |
+|------------|----------------|
+| Download   | ~1 minuto      |
+| Flash      | ~8 minuti      |
+| Riavvio    | ~30 secondi    |
+| **Totale** | **~10 minuti** |
 
 ---
 
@@ -229,8 +237,12 @@ La revisione riportata da `AT+QGMR` deve corrispondere alla versione di arrivo a
 Da una sessione SSH sul router:
 
 ```sh
-/etc/init.d/watchdog_mbim start
+# attivare la connessione WAN
 ifup wan
+
+# far ripartire eventuali watchdog se presenti (da adattare alla situazione del router)
+/etc/init.d/watchdog start
+/etc/init.d/watchcat start
 ```
 
 Se in alternativa si preferisce ModemManager, installarlo e riavviare il router.
