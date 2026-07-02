@@ -194,23 +194,6 @@ picocom /dev/ttyUSB2
 
 Gli indicatori `+QIND` appariranno automaticamente nella nuova sessione.
 
-La sequenza `+QIND` dipende dal protocollo dell'URL utilizzato.
-
-Via **HTTP**:
-
-```
-+QIND: "FOTA","HTTPSTART"        # download avviato
-+QIND: "FOTA","HTTPEND",0        # download completato con successo
-+QIND: "FOTA","START"            # flash avviato
-+QIND: "FOTA","UPDATING",1       # avanzamento flash (percentuale)
-+QIND: "FOTA","UPDATING",2
-+QIND: "FOTA","UPDATING",n
-+QIND: "FOTA","UPDATING",100     # flash completato
-+QIND: "FOTA","END",0            # aggiornamento completato con successo
-```
-
-Via **HTTPS**:
-
 ```
 +QIND: "FOTA","HTTPSSTART"       # download avviato
 +QIND: "FOTA","HTTPSEND",0       # download completato con successo
