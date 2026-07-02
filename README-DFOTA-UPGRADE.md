@@ -26,10 +26,24 @@ tramite comandi AT su router Zyxel LTE5398-M904 con OpenWrt.
 
 - Router con OpenWrt installato e funzionante
 - Connessione SSH al router
-- `picocom` disponibile sul router (`apk add picocom`)
+- `picocom` disponibile sul router (`apk add picocom` oppure tramite GUI `System → Software`)
 - File DFOTA corretto per la coppia di versioni (partenza → arrivo)
 - URL HTTPS raggiungibile dal modulo dove è ospitato il file DFOTA
 - UPS collegato per alimentazione stabile durante il flash
+
+---
+
+## Accesso SSH al router
+
+Connettersi al router tramite SSH:
+
+```sh
+ssh root@192.168.1.1
+```
+
+> **Nota**: `192.168.1.1` è l'indirizzo IP di default — se è stato modificato
+>           usare l'indirizzo corretto. Per utenti Windows è disponibile
+>           [PuTTY](https://www.putty.org/) come client SSH.
 
 ---
 
@@ -40,6 +54,9 @@ Aprire una sessione sulla porta AT del modulo:
 ```sh
 picocom /dev/ttyUSB2
 ```
+
+> **Nota**: su OpenWrt sono accessibili per i comandi AT sia `/dev/ttyUSB2`
+>           che `/dev/ttyUSB3` — entrambe funzionano.
 
 Output atteso all'avvio:
 
@@ -75,7 +92,8 @@ I file di aggiornamento per EG18-EA esistono in due formati distinti e **incompa
 | DFOTA     | ~40 MB            | Questa procedura (AT commands)        |
 | qfirehose | >100 MB           | Procedura separata via porta EDL 9008 |
 
-I file distribuiti per l'interfaccia web Zyxel OEM sono in formato **DFOTA** verifica dimensione e chsum prima se possibile.
+I file distribuiti tramite interfaccia web Zyxel OEM sono in formato **DFOTA**.
+Verificare dimensione e checksum del file prima di procedere se possibile.
 
 La nomenclatura del file indica la direzione dell'aggiornamento:
 
@@ -142,6 +160,9 @@ SubEdition: V05
 OK
 ```
 
+> **Nota**: il comando `ATI` mostra la revisione firmware attualmente installata —
+>           verificarla prima di scegliere il file DFOTA corretto.
+
 ---
 
 ## Avvio aggiornamento DFOTA
@@ -164,8 +185,14 @@ AT+QFOTADL="https://quec-pro-oss.oss-cn-shanghai.aliyuncs.com/fota/9000/Update_E
 
 ## Monitoraggio progresso
 
-Gli indicatori `+QIND` vengono emessi spontaneamente dal modulo e appaiono
-direttamente nella sessione picocom.
+Dopo aver digitato `AT+QFOTADL` la sessione picocom corrente potrebbe
+interrompersi — è normale. Aprire una nuova sessione picocom sulla stessa porta:
+
+```sh
+picocom /dev/ttyUSB2
+```
+
+Gli indicatori `+QIND` appariranno automaticamente nella nuova sessione.
 
 La sequenza `+QIND` dipende dal protocollo dell'URL utilizzato.
 
@@ -176,6 +203,8 @@ Via **HTTP**:
 +QIND: "FOTA","HTTPEND",0        # download completato con successo
 +QIND: "FOTA","START"            # flash avviato
 +QIND: "FOTA","UPDATING",1       # avanzamento flash (percentuale)
++QIND: "FOTA","UPDATING",2
++QIND: "FOTA","UPDATING",n
 +QIND: "FOTA","UPDATING",100     # flash completato
 +QIND: "FOTA","END",0            # aggiornamento completato con successo
 ```
@@ -187,6 +216,8 @@ Via **HTTPS**:
 +QIND: "FOTA","HTTPSEND",0       # download completato con successo
 +QIND: "FOTA","START"            # flash avviato
 +QIND: "FOTA","UPDATING",1       # avanzamento flash (percentuale)
++QIND: "FOTA","UPDATING",2
++QIND: "FOTA","UPDATING",n
 +QIND: "FOTA","UPDATING",100     # flash completato
 +QIND: "FOTA","END",0            # aggiornamento completato con successo
 ```
