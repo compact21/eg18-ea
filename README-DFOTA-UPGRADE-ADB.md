@@ -60,9 +60,6 @@ I file di aggiornamento per EG18-EA esistono in due formati distinti e **incompa
 | DFOTA     | ~40 MB            | Questa procedura (AT commands)        |
 | qfirehose | >100 MB           | Procedura separata via porta EDL 9008 |
 
-I file distribuiti tramite interfaccia web Zyxel OEM sono in formato **DFOTA**.
-Verificare dimensione e checksum del file prima di procedere se possibile.
-
 La nomenclatura del file indica la direzione dell'aggiornamento:
 
 ```
