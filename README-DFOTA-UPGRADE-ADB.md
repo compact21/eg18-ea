@@ -12,6 +12,13 @@ con OpenWrt.
 >           Vedi [README-ADB-ENABLE.md](https://github.com/compact21/eg18-ea/blob/main/README-ADB-ENABLE.md) per la procedura
 >           di abilitazione.
 
+## ⚠ Avvertenza
+
+**Procedura ad alto rischio. Un errore può rendere il modem inutilizzabile**
+
+**Questa procedura è destinata esclusivamente ai proprietari del dispositivo per l'accesso al proprio hardware.
+L'autore non fornisce alcuna garanzia e l'utilizzo è a proprio rischio**
+
 ---
 
 ## Indice
@@ -65,7 +72,7 @@ Upgrade_EG18EAPAR01A12M4G_01.001.01.001-R01A13M4G_01.001.01.001.zip
 
 Utilizzare sempre il file corrispondente alla propria revisione di partenza.
 La procedura di downgrade è identica a quella di upgrade — basta usare il file
-con la direzione inversa.
+con la direzione inversa **se supportato** dal pacchetto DFOTA.
 
 ---
 
