@@ -6,6 +6,13 @@ tramite comandi AT su router Zyxel LTE5398-M904 con OpenWrt.
 > **Nota**: questa procedura utilizza il metodo DFOTA (Delta Firmware Over The Air)
 >           tramite download HTTPS diretto dal modulo.
 
+## ⚠ Avvertenza
+
+**Procedura ad alto rischio. Un errore può rendere il modem inutilizzabile**
+
+**Questa procedura è destinata esclusivamente ai proprietari del dispositivo per l'accesso al proprio hardware.
+L'autore non fornisce alcuna garanzia e l'utilizzo è a proprio rischio**
+
 ---
 
 ## Indice
@@ -92,9 +99,6 @@ I file di aggiornamento per EG18-EA esistono in due formati distinti e **incompa
 | DFOTA     | ~40 MB            | Questa procedura (AT commands)        |
 | qfirehose | >100 MB           | Procedura separata via porta EDL 9008 |
 
-I file distribuiti tramite interfaccia web Zyxel OEM sono in formato **DFOTA**.
-Verificare dimensione e checksum del file prima di procedere se possibile.
-
 La nomenclatura del file indica la direzione dell'aggiornamento:
 
 ```
@@ -104,7 +108,8 @@ Update_EG18EAPAR01A08V05M4G-R01A13M4G_01.200.01.200_V02.zip
 
 Utilizzare sempre il file corrispondente alla propria revisione di partenza.
 La procedura di downgrade è identica a quella di upgrade — basta usare il file
-con la direzione inversa (es. `Update_R01A13M4G_...-EG18EAPAR01A08V05M4G.zip`).
+con la direzione inversa **se supportato** dal pacchetto DFOTA.
+es. `Update_R01A13M4G_...-EG18EAPAR01A08V05M4G.zip`.
 
 ---
 
