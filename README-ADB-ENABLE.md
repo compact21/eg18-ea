@@ -3,6 +3,12 @@
 Procedura per abilitare l'interfaccia ADB sul modulo LTE Quectel EG18-EA
 su router Zyxel LTE5398-M904 con OpenWrt.
 
+L'interfaccia ADB consente di accedere alla shell Android/Linux interna del modulo Quectel,
+facilitando operazioni di diagnostica avanzata, aggiornamenti DFOTA e analisi del firmware.
+
+**Questa procedura è destinata esclusivamente ai proprietari del dispositivo per l'accesso al proprio hardware.
+L'autore non fornisce alcuna garanzia e l'utilizzo è a proprio rischio**
+
 ---
 
 ## Indice
@@ -54,6 +60,8 @@ Output atteso:
 +QCFG: "usbcfg",0x2C7C,0x0512,1,1,1,1,1,1,0
 OK
 ```
+
+> **Nota**: Conservare l'output originale prima di apportare modifiche. In caso di problemi sarà possibile ripristinare la configurazione precedente.
 
 Il significato dei parametri è il seguente:
 
@@ -206,6 +214,7 @@ Uscire da picocom: `Ctrl-a` poi `Ctrl-x`.
 ## Riavvio
 
 Per rendere effettiva la modifica è necessario riavviare il modulo LTE.
+La nuova configurazione USB viene applicata solo dopo il riavvio del modulo.
 
 **Opzione 1** — riavvio solo del modulo LTE dalla sessione picocom:
 
